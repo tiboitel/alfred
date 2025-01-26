@@ -19,8 +19,8 @@ services:
       - DB_HOST=db
       - DB_PORT=3306
       - DB_DATABASE=alfred_db
-      - DB_USERNAME=root
-      - DB_PASSWORD=root
+      - DB_USERNAME=alfred_dev
+      - DB_PASSWORD=alfred_1234
     depends_on:
       - db
 
