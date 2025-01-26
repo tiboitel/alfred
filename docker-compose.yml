@@ -9,11 +9,8 @@ services:
     container_name: alfred-app
     restart: always
     working_dir: /var/www
-    volumes:
-      - ../:/var/www
-    ports:
-      - "8000:9000"  # Forward port 9000 inside the container to 8000 on your local machine
-      - "8080:80"     # Forward port 80 for Nginx to access the Vue.js frontend
+    expose:
+      - "9000"  # Forward port 9000 inside the container to 8000 on your local machine
     environment:
       - APP_ENV=local
       - DB_HOST=db
@@ -23,6 +20,8 @@ services:
       - DB_PASSWORD=alfred_1234
     depends_on:
       - db
+    networks:
+      - alfred-network
 
   # MySQL Database service
   db:
@@ -35,6 +34,22 @@ services:
       MYSQL_PASSWORD: alfred1234
     volumes:
       - db_data:/var/lib/mysql
+    networks:
+      - alfred-network
+
+  # Nginx service
+  nginx:
+    build:
+      context: . 
+      dockerfile: nginx.Dockerfile
+    container_name: alfred-nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www
+    depends_on:
+      - app
+    restart: always
     networks:
       - alfred-network
 
