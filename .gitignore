@@ -1,3 +1,5 @@
 .env
 ./vendor
 ./vendor/*
+./storage/logs
+./storage/cache

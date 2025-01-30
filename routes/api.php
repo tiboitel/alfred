@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AIController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +18,11 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// Public dummy login route for Sanctum
+Route::post('/login', function (Request $request) {
+    return response()->json(['message' => 'Login is not needed for API authentication'], 200);
+})->name('login');
+
+// Public route to test job dispatching
+Route::post('/ask-alfred', [AIController::class, 'askAlfred'])->middleware('auth:sanctum');
